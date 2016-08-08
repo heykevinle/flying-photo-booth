@@ -100,12 +100,12 @@ public class ConfirmationFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        String message = getString(R.string.confirmation__message, getString(R.string.app_name));
-        mMessage.setText(message);
-
         // Get from preference.
         PreferencesHelper preferencesHelper = new PreferencesHelper();
         PreferencesHelper.PhotoBoothMode mode = preferencesHelper.getPhotoBoothMode(getActivity());
+
+        String thankYouMessage = preferencesHelper.getEventThankYouMessage(getActivity());
+        mMessage.setText(thankYouMessage);
 
         // Set submission mode.
         if (PreferencesHelper.PhotoBoothMode.AUTOMATIC.equals(mode)) {
@@ -214,6 +214,6 @@ public class ConfirmationFragment extends Fragment {
         /**
          * The submit button is clicked.
          */
-        public void onSubmit();
+        void onSubmit();
     }
 }

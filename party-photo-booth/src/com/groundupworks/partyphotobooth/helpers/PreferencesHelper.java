@@ -49,7 +49,7 @@ public class PreferencesHelper {
         /**
          * Photographer mode uses back-facing camera and no count down.
          */
-        PHOTOGRAPHER;
+        PHOTOGRAPHER
     }
 
     /**
@@ -154,7 +154,7 @@ public class PreferencesHelper {
          * @param arrangement the arrangement of the photo strip.
          * @param numPhotos   the number of photos in the photo strip.
          */
-        private PhotoStripTemplate(PhotoStripArrangement arrangement, int numPhotos) {
+        PhotoStripTemplate(PhotoStripArrangement arrangement, int numPhotos) {
             mArrangement = arrangement;
             mNumPhotos = numPhotos;
         }
@@ -230,6 +230,11 @@ public class PreferencesHelper {
     private static final String KEY_EVENT_LINE_TWO = "eventLineTwo";
 
     /**
+     * Key for the thank you message of the event record.
+     */
+    private static final String KEY_EVENT_THANK_YOU_MESSAGE = "eventThankYouMESSAGE";
+
+    /**
      * Key for the event logo uri record.
      */
     private static final String KEY_EVENT_LOGO_URI = "eventLogoUri";
@@ -253,6 +258,12 @@ public class PreferencesHelper {
      * The default preferences for the event logo uri.
      */
     private static final String DEFAULT_EVENT_LOGO_URI_PREFERENCE = "";
+
+    /**
+     * The default preferences for the event title.
+     */
+    private static final String DEFAULT_EVENT_THANK_YOU_MESSAGE_PREFERENCE = "";
+
 
     //
     // Public methods.
@@ -448,5 +459,31 @@ public class PreferencesHelper {
     public boolean getNoticeEnabled(Context context) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
         return preferences.getBoolean(KEY_NOTICE_ENABLED, false);
+    }
+
+    /**
+     * Stores the second line of the event title.
+     *
+     * @param context      the {@link Context}.
+     * @param thankYouMessage message to display; or an empty string. Pass null to clear.
+     */
+    public void storeEventThankYouMessage(Context context, String thankYouMessage) {
+        Editor editor = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext()).edit();
+        if (thankYouMessage != null && thankYouMessage.length() > 0) {
+            editor.putString(KEY_EVENT_THANK_YOU_MESSAGE, thankYouMessage).apply();
+        } else {
+            editor.remove(KEY_EVENT_THANK_YOU_MESSAGE).apply();
+        }
+    }
+
+    /**
+     * Reads the second line of the event title.
+     *
+     * @param context the {@link Context}.
+     * @return the thank you message; or an empty string.
+     */
+    public String getEventThankYouMessage(Context context) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+        return preferences.getString(KEY_EVENT_THANK_YOU_MESSAGE, DEFAULT_EVENT_THANK_YOU_MESSAGE_PREFERENCE);
     }
 }

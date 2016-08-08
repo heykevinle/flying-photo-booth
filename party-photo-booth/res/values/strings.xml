@@ -17,6 +17,8 @@
     <string name="event_info_setup__event_date">Date</string>
     <string name="event_info_setup__event_date_hidden">Hide date</string>
     <string name="event_info_setup__error_logo">Unable to load selected logo</string>
+    <string name="event_info_setup__thank_you_msg">Thank You\nMessage</string>
+    <string name="event_info_setup__thank_you_msg_text">Thank you for celebrating with us!</string>
 
     <!-- Photo Booth Setup Fragment -->
     <string name="photo_booth_setup__title">Photo Booth Setup</string>

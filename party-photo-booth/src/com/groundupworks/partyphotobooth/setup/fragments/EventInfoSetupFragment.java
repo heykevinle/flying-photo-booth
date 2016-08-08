@@ -104,6 +104,8 @@ public class EventInfoSetupFragment extends Fragment {
 
     private Button mNext;
 
+    private EditText mThankYouMessage;
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -123,6 +125,7 @@ public class EventInfoSetupFragment extends Fragment {
         mDate = (DatePicker) view.findViewById(R.id.setup_event_info_date);
         mDateHidden = (CheckBox) view.findViewById(R.id.setup_event_info_date_hidden);
         mNext = (Button) view.findViewById(R.id.setup_event_info_button_next);
+        mThankYouMessage = (EditText) view.findViewById(R.id.setup_event_info__thank_you_msg);
 
         return view;
     }
@@ -242,6 +245,14 @@ public class EventInfoSetupFragment extends Fragment {
             Calendar calendar = new GregorianCalendar(mDate.getYear(), mDate.getMonth(), mDate.getDayOfMonth());
             mPreferencesHelper.storeEventDate(appContext, calendar.getTimeInMillis());
         }
+
+        // Store title.
+        String thankYouMessageString = null;
+        Editable thankYouMessage = mThankYouMessage.getText();
+        if (thankYouMessage != null && thankYouMessage.length() > 0) {
+            thankYouMessageString = thankYouMessage.toString();
+        }
+        mPreferencesHelper.storeEventThankYouMessage(appContext, thankYouMessageString);
 
         super.onPause();
     }
