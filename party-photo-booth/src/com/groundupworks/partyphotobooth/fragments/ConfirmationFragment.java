@@ -78,6 +78,8 @@ public class ConfirmationFragment extends Fragment {
 
     private Button mSubmit;
 
+    private TextView mCountdownMessage;
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -91,6 +93,7 @@ public class ConfirmationFragment extends Fragment {
          */
         View view = inflater.inflate(R.layout.fragment_confirmation, container, false);
         mMessage = (TextView) view.findViewById(R.id.confirmation_message);
+        mCountdownMessage = (TextView) view.findViewById(R.id.confirmation_countdown_message);
         mSubmit = (Button) view.findViewById(R.id.confirmation_button_submit);
 
         return view;
@@ -135,6 +138,26 @@ public class ConfirmationFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
+        final Timer timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+
+                int i = (int) mAutoSubmissionTimeout / 1000;
+
+                @Override
+                public void run() {
+                    final Activity activity = getActivity();
+                    if (activity != null && !activity.isFinishing()) {
+                        activity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mCountdownMessage.setText(i-- + "");
+                            }
+                        });
+                    }
+                }
+            }
+            , 0, 1000);
+
         // Schedule auto-submission of the fragment.
         mSubmissionTimer = new Timer(AUTO_SUBMISSION_TIMER_NAME);
         mSubmissionTimer.schedule(new TimerTask() {
@@ -157,6 +180,7 @@ public class ConfirmationFragment extends Fragment {
                         }
                     });
                 }
+                timer.cancel();
             }
         }, mAutoSubmissionTimeout);
     }
